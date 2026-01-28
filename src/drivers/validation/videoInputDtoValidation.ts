@@ -1,8 +1,6 @@
-import { VideoInputDto } from "../dto/video.input-dto";
-import { ValidationError } from "./types/validationErrors";
-import { Resolution } from "./types/video";
-
-
+import { VideoInputDto } from '../dto/video.input-dto';
+import { ValidationError } from './types/validationErrors';
+import { Resolution } from './types/video';
 
 export const videoInputDtoValidation = (
   data: VideoInputDto,
@@ -15,7 +13,10 @@ export const videoInputDtoValidation = (
     // data.title.trim().length < 2 ||
     data.title.trim().length > 40
   ) {
-    errors.push({ field: 'name', message: 'Invalid title' });
+    errors.push({
+      message: 'Title is required',
+      field: 'title',
+    });
   }
 
   if (
@@ -24,12 +25,8 @@ export const videoInputDtoValidation = (
     // data.author.trim().length < 8 ||
     data.author.trim().length > 20
   ) {
-    errors.push({ field: 'author', message: 'Invalid author' });
+    errors.push({ field: 'author', message: 'author' });
   }
-
- 
-
-
 
   if (!Array.isArray(data.availableResolutions)) {
     errors.push({
@@ -44,14 +41,14 @@ export const videoInputDtoValidation = (
     ) {
       errors.push({
         field: 'availableResolutions',
-        message: 'Invalid availableResolutions',
+        message: 'availableResolutions',
       });
     }
     for (const feature of data.availableResolutions) {
       if (!existingFeatures.includes(feature)) {
         errors.push({
           field: 'availableResolutions',
-          message: 'Invalid availableResolutions:' + feature,
+          message: 'availableResolutions' + feature,
         });
         break;
       }

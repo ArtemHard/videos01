@@ -5,6 +5,7 @@ import { createErrorMessages } from '../../core/utils/error.utils';
 import { VideoInputDto } from '../dto/video.input-dto';
 import { videoInputDtoValidation } from '../validation/videoInputDtoValidation';
 import { Resolution, Video } from '../validation/types/video';
+import { videoInputUpdateDtoValidation } from '../validation/videoInputUpdateDtoValidation';
 
 export const videosRouter = Router({});
 
@@ -63,7 +64,7 @@ videosRouter
       return;
     }
 
-    const errors = videoInputDtoValidation(req.body);
+    const errors = videoInputUpdateDtoValidation(req.body);
 
     if (errors.length > 0) {
       res.status(HttpStatus.BadRequest).send(createErrorMessages(errors));
@@ -77,7 +78,7 @@ videosRouter
     video.availableResolutions = req.body.availableResolutions ;
     video.canBeDownloaded = req.body.canBeDownloaded;
     video.minAgeRestriction = req.body.minAgeRestriction;
-    video.publicationDate = req.body.vehicleYear;
+    video.publicationDate = req.body.publicationDate;
 
     res.sendStatus(HttpStatus.NoContent);
   })

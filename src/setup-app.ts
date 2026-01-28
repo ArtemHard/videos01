@@ -11,8 +11,8 @@ export const setupApp = (app: Express) => {
   });
  
   // app.use("/api/videos", driversRouter); // URL теперь начинается с /api/
-  app.use("/api/videos", videosRouter); // URL теперь начинается с /api/
-  app.use("/api/testing", testingRouter); // URL теперь начинается с /api/
+  app.use("/videos", videosRouter); // URL теперь начинается с /api/
+  app.use("/testing", testingRouter); // URL теперь начинается с /api/
  
   setupSwagger(app);
   return app;
