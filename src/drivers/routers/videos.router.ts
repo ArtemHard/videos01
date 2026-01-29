@@ -6,6 +6,7 @@ import { VideoInputDto } from '../dto/video.input-dto';
 import { videoInputDtoValidation } from '../validation/videoInputDtoValidation';
 import { Resolution, Video } from '../validation/types/video';
 import { videoInputUpdateDtoValidation } from '../validation/videoInputUpdateDtoValidation';
+import { log } from 'node:console';
 
 export const videosRouter = Router({});
 
@@ -15,6 +16,7 @@ videosRouter
   })
 
   .get('/:id', (req: Request, res: Response) => {
+    //@ts-ignore
     const id = parseInt(req.params.id);
     const video = db.videos.find((d) => d.id === id);
 
@@ -30,10 +32,11 @@ videosRouter
   })
 
   .post('', (req: Request<{}, {}, VideoInputDto>, res: Response) => {
+
     const errors = videoInputDtoValidation(req.body);
 
     if (errors.length > 0) {
-      res.status(HttpStatus.BadRequest).send(createErrorMessages(errors));
+      res.status(HttpStatus.BadRequest).send(createErrorMessages(errors, 'errorsMessages'));
       return;
     }
 
@@ -52,6 +55,7 @@ videosRouter
   })
 
   .put('/:id', (req: Request, res: Response) => {
+    //@ts-ignore
     const id = parseInt(req.params.id);
     const index = db.videos.findIndex((v) => v.id === id);
 
@@ -67,6 +71,7 @@ videosRouter
     const errors = videoInputUpdateDtoValidation(req.body);
 
     if (errors.length > 0) {
+        
       res.status(HttpStatus.BadRequest).send(createErrorMessages(errors));
       return;
     }
@@ -84,6 +89,7 @@ videosRouter
   })
 
   .delete('/:id', (req: Request, res: Response) => {
+    //@ts-ignore
     const id = parseInt(req.params.id);
 
     //ищет первый элемент, у которого функция внутри возвращает true и возвращает индекс этого элемента в массиве, если id ни у кого не совпал, то findIndex вернёт -1.

@@ -1,8 +1,8 @@
 import { ValidationError } from "../../drivers/validation/types/validationErrors";
 
 export const createErrorMessages = (
-  errors: ValidationError[],
+  errors: ValidationError[], key?: string
 ): { [x: string]: ValidationError[] } => {
-    const key = errors.length > 1 ? 'errorMessages' : 'errorMessage';
-  return { [key]: errors };
+    const validKey = !!key ? key : errors.length > 1 ? 'errorsMessages' : 'errorMessage';
+  return { [validKey]: errors };
 };
