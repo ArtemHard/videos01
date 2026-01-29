@@ -27,5 +27,18 @@ export const videoInputUpdateDtoValidation = (
     });
   }
 
+  if (
+    data.minAgeRestriction !== null &&
+    (typeof data.minAgeRestriction !== 'number' ||
+      !Number.isInteger(data.minAgeRestriction) ||
+      data.minAgeRestriction < 1 ||
+      data.minAgeRestriction > 18)
+  ) {
+    errors.push({
+      field: 'minAgeRestriction',
+      message: 'minAgeRestriction must be an integer between 1 and 18, or null',
+    });
+  }
+
   return errors;
 };

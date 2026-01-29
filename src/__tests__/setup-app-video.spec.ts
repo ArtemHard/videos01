@@ -49,12 +49,12 @@ describe('Video API', () => {
       .expect(201);
 
     const updatedVideo = {
-      title: null,
+      title: 'length_41-oGuSMzyRUxdnN7ClQA7QbIEk5eMianm',
       author: 'valid author',
-      availableResolutions: ['P144', 'P240', 'P720'],
-      canBeDownloaded: 'string',
-      minAgeRestriction: 17,
-      publicationDate: '2026-01-31T15:42:06.062Z',
+      availableResolutions: ['P720'],
+      canBeDownloaded: true,
+      minAgeRestriction: 25,
+      publicationDate: '2026-02-01T09:20:58.090Z',
     };
 
     const videoResponsePut = await request(app)
@@ -92,46 +92,42 @@ describe('Video API', () => {
     expect(videoResponsePut.body.errorsMessages[1].message).toContain(
       'boolean',
     );
-
   });
 
- it('should return 400 with validation error for null title; POST /videos', async () => {
-  const invalidVideoData = {
-    title: null,
-    author: 'valid author',
-    availableResolutions: ['P144', 'P240', 'P720'],
-  };
+  it('should return 400 with validation error for null title; POST /videos', async () => {
+    const invalidVideoData = {
+      title: null,
+      author: 'valid author',
+      availableResolutions: ['P144', 'P240', 'P720'],
+    };
 
-  const response = await request(app)
-    .post('/videos')
-    .send(invalidVideoData)
-    .expect(400);
+    const response = await request(app)
+      .post('/videos')
+      .send(invalidVideoData)
+      .expect(400);
 
-  // Проверяем, что тело ответа содержит errorMessage как массив
-  expect(response.body).toHaveProperty('errorsMessages');
-  expect(Array.isArray(response.body.errorsMessages)).toBe(true);
-  expect(response.body.errorsMessages).toHaveLength(1);
+    // Проверяем, что тело ответа содержит errorMessage как массив
+    expect(response.body).toHaveProperty('errorsMessages');
+    expect(Array.isArray(response.body.errorsMessages)).toBe(true);
+    expect(response.body.errorsMessages).toHaveLength(1);
 
-  // Проверяем структуру первой ошибки
-  expect(response.body.errorsMessages[0]).toEqual(
-    expect.objectContaining({
-      message: 'Title is required',
-      field: 'title',
-    }),
-  );
-});
-
+    // Проверяем структуру первой ошибки
+    expect(response.body.errorsMessages[0]).toEqual(
+      expect.objectContaining({
+        message: 'Title is required',
+        field: 'title',
+      }),
+    );
+  });
 
   it.skip('should return driver by id; GET /drivers/:id', async () => {
     // const createResponse = await request(app)
     //   .post('/drivers')
     //   .send({ ...testDriverData, name: 'Another Driver' })
     //   .expect(201);
-
     // const getResponse = await request(app)
     //   .get(`/drivers/${createResponse.body.id}`)
     //   .expect(200);
-
     // expect(getResponse.body).toEqual({
     //   ...createResponse.body,
     //   id: expect.any(Number),
